@@ -1,0 +1,6 @@
+{
+  "name": "WanderKanban - Travel Trip Planner & Itinerary Board",
+  "description": "Plan your destination trips with an interactive daily Kanban itinerary board, budget tracker, activity scheduler, and customizable travel days.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
