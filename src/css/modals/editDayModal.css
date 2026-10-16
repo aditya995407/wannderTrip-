@@ -1,0 +1,13 @@
+/**
+ * Edit Day Modal CSS Stylesheet
+ */
+
+.edit-day-modal-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 32rem;
+  overflow: hidden;
+}

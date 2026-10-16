@@ -1,0 +1,82 @@
+/**
+ * Hero & Search Widget CSS Stylesheet
+ */
+
+.hero-section {
+  position: relative;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+}
+
+html.dark .hero-section {
+  background: linear-gradient(to bottom, #0f172a 0%, #020617 100%);
+}
+
+.hero-header-box {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hero-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-muted);
+  border: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.hero-main-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .hero-main-title {
+    font-size: 3rem;
+  }
+}
+
+.hero-subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Search Box Container */
+.search-form-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  position: relative;
+  z-index: 20;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .search-form-card {
+    padding: 1.75rem;
+  }
+}

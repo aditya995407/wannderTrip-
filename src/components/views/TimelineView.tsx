@@ -1,7 +1,7 @@
 import React from 'react';
 import { Clock, MapPin, ExternalLink, Plus, CheckCircle2, Circle } from 'lucide-react';
-import { ActivityItem, DayColumn, Trip } from '../types/trip';
-import { CATEGORY_DETAILS, formatCurrency, formatDateDisplay } from '../utils/formatters';
+import { ActivityItem, DayColumn, Trip } from '../../types/trip';
+import { CATEGORY_DETAILS, formatCurrency, formatDateDisplay } from '../../utils/formatters';
 
 interface TimelineViewProps {
   trip: Trip;

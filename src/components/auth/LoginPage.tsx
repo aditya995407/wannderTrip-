@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../../css/auth/loginPage.css';
 import {
   Compass,
   ArrowLeft,
@@ -13,7 +14,7 @@ import {
   KeyRound,
   Check,
 } from 'lucide-react';
-import { AuthUser } from '../types/auth';
+import { AuthUser } from '../../types/auth';
 import {
   authenticateWithGoogleCredential,
   getBackendApiUrl,
@@ -21,8 +22,8 @@ import {
   getGoogleClientId,
   setGoogleClientId,
   DEFAULT_BACKEND_URL,
-} from '../services/authService';
-import jaipurImg from '../assets/images/travel_jaipur_india_1791122087611.jpg';
+} from '../../services/authService';
+import jaipurImg from '../../assets/images/travel_jaipur_india_1791122087611.jpg';
 
 interface LoginPageProps {
   onLoginSuccess: (user: AuthUser, token: string) => void;

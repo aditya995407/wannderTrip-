@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../css/kanban/kanbanBoard.css';
 import {
   Plus,
   Search,
@@ -8,9 +9,9 @@ import {
   Edit2,
   Compass,
 } from 'lucide-react';
-import { ActivityItem, DayColumn, Trip } from '../types/trip';
+import { ActivityItem, DayColumn, Trip } from '../../types/trip';
 import { KanbanCard } from './KanbanCard';
-import { formatCurrency, formatDateDisplay } from '../utils/formatters';
+import { formatCurrency, formatDateDisplay } from '../../utils/formatters';
 
 interface KanbanBoardProps {
   trip: Trip;

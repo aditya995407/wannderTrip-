@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Check, Calendar } from 'lucide-react';
-import { DayColumn } from '../types/trip';
+import { DayColumn } from '../../types/trip';
 
 interface EditDayModalProps {
   isOpen: boolean;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, Clock, MapPin, DollarSign, Tag, Check, Calendar, Sparkles, Plus, Search, ExternalLink } from 'lucide-react';
-import { ActivityCategory, ActivityItem, ActivityPriority, ActivityStatus, DayColumn } from '../types/trip';
-import { getDestinationSuggestions, SuggestedActivity } from '../data/destinations';
-import { CATEGORY_DETAILS, formatCurrency } from '../utils/formatters';
+import { ActivityCategory, ActivityItem, ActivityPriority, ActivityStatus, DayColumn } from '../../types/trip';
+import { getDestinationSuggestions, SuggestedActivity } from '../../data/destinations';
+import { CATEGORY_DETAILS, formatCurrency } from '../../utils/formatters';
 
 interface ActivityModalProps {
   isOpen: boolean;

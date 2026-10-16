@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Check, Trash2 } from 'lucide-react';
-import { TravelStyle, Trip } from '../types/trip';
+import { TravelStyle, Trip } from '../../types/trip';
 
 interface TripSettingsModalProps {
   isOpen: boolean;

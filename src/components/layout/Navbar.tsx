@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import '../../css/layout/navbar.css';
 import {
   Compass,
   Plus,
@@ -13,8 +14,8 @@ import {
   ShieldCheck,
   ChevronDown,
 } from 'lucide-react';
-import { Trip } from '../types/trip';
-import { AuthUser } from '../types/auth';
+import { Trip } from '../../types/trip';
+import { AuthUser } from '../../types/auth';
 
 export type ActiveView = 'home' | 'kanban' | 'timeline' | 'budget' | 'packing' | 'login';
 

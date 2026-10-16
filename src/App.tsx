@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import { Navbar, ActiveView } from './components/Navbar';
-import { HomePage } from './components/HomePage';
-import { KanbanBoard } from './components/KanbanBoard';
-import { TimelineView } from './components/TimelineView';
-import { BudgetTrackerView } from './components/BudgetTrackerView';
-import { PackingChecklistView } from './components/PackingChecklistView';
-import { LoginPage } from './components/LoginPage';
-import { ActivityModal } from './components/ActivityModal';
-import { EditDayModal } from './components/EditDayModal';
-import { TripSettingsModal } from './components/TripSettingsModal';
-import { ExportModal } from './components/ExportModal';
+import { Navbar, ActiveView } from './components/layout';
+import { HomePage } from './components/home';
+import { KanbanBoard } from './components/kanban';
+import { TimelineView, BudgetTrackerView, PackingChecklistView } from './components/views';
+import { LoginPage } from './components/auth';
+import { ActivityModal, EditDayModal, TripSettingsModal, ExportModal } from './components/modals';
 
 import { useTheme, useAuthSession, useTripManager } from './hooks';
 import { ActivityItem, DayColumn } from './types/trip';

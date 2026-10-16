@@ -1,0 +1,15 @@
+/**
+ * Packing Checklist View CSS Stylesheet
+ */
+
+.packing-container {
+  flex: 1;
+  background-color: var(--bg-app);
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+.packing-wrapper {
+  max-width: 56rem;
+  margin: 0 auto;
+}

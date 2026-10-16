@@ -1,0 +1,15 @@
+/**
+ * Budget Tracker View CSS Stylesheet
+ */
+
+.budget-container {
+  flex: 1;
+  background-color: var(--bg-app);
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
+
+.budget-wrapper {
+  max-width: 64rem;
+  margin: 0 auto;
+}

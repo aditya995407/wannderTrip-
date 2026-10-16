@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Printer, Copy, Check, Download } from 'lucide-react';
-import { ActivityItem, DayColumn, Trip } from '../types/trip';
-import { formatCurrency, formatDateDisplay } from '../utils/formatters';
+import { ActivityItem, DayColumn, Trip } from '../../types/trip';
+import { formatCurrency, formatDateDisplay } from '../../utils/formatters';
 
 interface ExportModalProps {
   isOpen: boolean;

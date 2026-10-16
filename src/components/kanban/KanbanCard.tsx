@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../css/kanban/kanbanCard.css';
 import {
   GripVertical,
   Clock,
@@ -9,8 +10,8 @@ import {
   Edit2,
   Trash2,
 } from 'lucide-react';
-import { ActivityItem, DayColumn } from '../types/trip';
-import { CATEGORY_DETAILS, PRIORITY_DETAILS, formatCurrency } from '../utils/formatters';
+import { ActivityItem, DayColumn } from '../../types/trip';
+import { CATEGORY_DETAILS, PRIORITY_DETAILS, formatCurrency } from '../../utils/formatters';
 
 interface KanbanCardProps {
   activity: ActivityItem;

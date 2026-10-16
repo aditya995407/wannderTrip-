@@ -1,0 +1,13 @@
+/**
+ * Trip Settings Modal CSS Stylesheet
+ */
+
+.trip-settings-modal-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 36rem;
+  overflow: hidden;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DollarSign, PieChart, TrendingUp, AlertTriangle, CheckCircle, Tag } from 'lucide-react';
-import { ActivityCategory, ActivityItem, DayColumn, Trip } from '../types/trip';
-import { CATEGORY_DETAILS, formatCurrency, formatDateDisplay } from '../utils/formatters';
+import { ActivityCategory, ActivityItem, DayColumn, Trip } from '../../types/trip';
+import { CATEGORY_DETAILS, formatCurrency, formatDateDisplay } from '../../utils/formatters';
 
 interface BudgetTrackerViewProps {
   trip: Trip;

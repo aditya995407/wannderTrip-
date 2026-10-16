@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CheckSquare, Square, Plus, Trash2, RotateCcw } from 'lucide-react';
-import { PackingItem, Trip } from '../types/trip';
+import { PackingItem, Trip } from '../../types/trip';
 
 interface PackingChecklistViewProps {
   trip: Trip;

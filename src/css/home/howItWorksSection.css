@@ -1,0 +1,24 @@
+/**
+ * How It Works Section CSS Stylesheet
+ */
+
+.how-it-works-section {
+  padding: 3rem 1.5rem;
+}
+
+.how-it-works-container {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.how-it-works-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .how-it-works-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

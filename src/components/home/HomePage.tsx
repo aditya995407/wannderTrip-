@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { TravelStyle, TravelerType, Trip } from '../types/trip';
-import { POPULAR_SEARCH_DESTINATIONS, SearchDestinationItem } from '../data/destinations';
-import { AuthUser } from '../types/auth';
+import { TravelStyle, TravelerType, Trip } from '../../types/trip';
+import { POPULAR_SEARCH_DESTINATIONS, SearchDestinationItem } from '../../data/destinations';
+import { AuthUser } from '../../types/auth';
 import {
   HeroSearchWidget,
   SavedTripsSection,
   TrendingDestinations,
   HowItWorksSection,
-} from './home';
+} from './';
 
 interface HomePageProps {
   onPlanTrip: (tripData: {
