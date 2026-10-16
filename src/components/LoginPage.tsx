@@ -21,7 +21,7 @@ import {
   getGoogleClientId,
   setGoogleClientId,
   DEFAULT_BACKEND_URL,
-} from '../utils/auth';
+} from '../services/authService';
 import jaipurImg from '../assets/images/travel_jaipur_india_1791122087611.jpg';
 
 interface LoginPageProps {
