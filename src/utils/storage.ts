@@ -25,11 +25,96 @@ export function initializeSampleData(): {
     const hasOnboarded = localStorage.getItem(STORAGE_KEYS.HAS_ONBOARDED);
 
     if (rawTrips && JSON.parse(rawTrips).length > 0) {
-      const trips = JSON.parse(rawTrips) as Trip[];
+      let trips = JSON.parse(rawTrips) as Trip[];
+      let columns = JSON.parse(localStorage.getItem(STORAGE_KEYS.COLUMNS) || '[]') as DayColumn[];
+      let activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITIES) || '[]') as ActivityItem[];
+      let packing = JSON.parse(localStorage.getItem(STORAGE_KEYS.PACKING) || '[]') as PackingItem[];
+
+      // Check if user has Indian destination options in their saved list; if only Kyoto existed, seed Goa and Jaipur
+      const hasIndianTrip = trips.some((t) => t.country === 'India' || t.destination === 'Goa' || t.destination === 'Jaipur');
+      if (!hasIndianTrip) {
+        const goaPreset = CURATED_DESTINATIONS.find((d) => d.id === 'goa');
+        if (goaPreset) {
+          const goaTripId = 'trip-goa-sample';
+          const now = new Date();
+          const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 10);
+          const endDate = new Date(startDate);
+          endDate.setDate(endDate.getDate() + goaPreset.suggestedDays - 1);
+
+          const goaTrip: Trip = {
+            id: goaTripId,
+            title: 'Goa Sun, Sand & Portuguese Heritage',
+            destination: goaPreset.destination,
+            country: goaPreset.country,
+            flag: goaPreset.flag,
+            coverImage: goaPreset.coverImage,
+            startDate: startDate.toISOString().split('T')[0],
+            endDate: endDate.toISOString().split('T')[0],
+            numberOfDays: goaPreset.suggestedDays,
+            budget: 35000,
+            currency: 'INR',
+            travelersCount: 2,
+            travelerType: 'couple',
+            travelStyle: 'relaxed',
+            notes: 'Beach hopping from Anjuna to Palolem, Chapora sunset, Fontainhas heritage walk, and fresh Goan seafood.',
+            createdAt: Date.now(),
+          };
+
+          const goaColumns: DayColumn[] = goaPreset.days.map((d, index) => {
+            const dDate = new Date(startDate);
+            dDate.setDate(dDate.getDate() + index);
+            return {
+              id: `col-${goaTripId}-day-${index + 1}`,
+              tripId: goaTripId,
+              dayIndex: index + 1,
+              date: dDate.toISOString().split('T')[0],
+              title: `Day ${index + 1}: ${d.title}`,
+              theme: d.theme,
+              weather: {
+                temp: `${29 + (index % 3)}°C`,
+                condition: index % 2 === 0 ? 'Sunny & Warm' : 'Tropical Breeze',
+              },
+            };
+          });
+
+          const goaActivities: ActivityItem[] = [];
+          let actId = 1;
+          goaPreset.days.forEach((day, dayIdx) => {
+            const colId = goaColumns[dayIdx].id;
+            day.activities.forEach((act, actIdx) => {
+              goaActivities.push({
+                ...act,
+                id: `act-${goaTripId}-${actId++}`,
+                columnId: colId,
+                order: actIdx,
+              });
+            });
+          });
+          goaPreset.backlog.forEach((act, actIdx) => {
+            goaActivities.push({
+              ...act,
+              id: `act-${goaTripId}-${actId++}`,
+              columnId: 'backlog',
+              order: actIdx,
+            });
+          });
+
+          const goaPacking = createInitialPackingList(goaTripId);
+
+          trips = [goaTrip, ...trips];
+          columns = [...goaColumns, ...columns];
+          activities = [...goaActivities, ...activities];
+          packing = [...goaPacking, ...packing];
+
+          localStorage.setItem(STORAGE_KEYS.TRIPS, JSON.stringify(trips));
+          localStorage.setItem(STORAGE_KEYS.ACTIVE_TRIP_ID, goaTripId);
+          localStorage.setItem(STORAGE_KEYS.COLUMNS, JSON.stringify(columns));
+          localStorage.setItem(STORAGE_KEYS.ACTIVITIES, JSON.stringify(activities));
+          localStorage.setItem(STORAGE_KEYS.PACKING, JSON.stringify(packing));
+        }
+      }
+
       const activeTripId = localStorage.getItem(STORAGE_KEYS.ACTIVE_TRIP_ID) || trips[0].id;
-      const columns = JSON.parse(localStorage.getItem(STORAGE_KEYS.COLUMNS) || '[]') as DayColumn[];
-      const activities = JSON.parse(localStorage.getItem(STORAGE_KEYS.ACTIVITIES) || '[]') as ActivityItem[];
-      const packing = JSON.parse(localStorage.getItem(STORAGE_KEYS.PACKING) || '[]') as PackingItem[];
 
       return {
         trips,
@@ -44,35 +129,35 @@ export function initializeSampleData(): {
     console.error('Error reading localStorage:', err);
   }
 
-  // Pre-seed with Kyoto preset as initial demonstration
-  const kyotoPreset = CURATED_DESTINATIONS[0];
-  const tripId = 'trip-kyoto-sample';
+  // Pre-seed with Goa as initial demonstration in INR
+  const goaPreset = CURATED_DESTINATIONS.find((d) => d.id === 'goa') || CURATED_DESTINATIONS[0];
+  const tripId = 'trip-goa-sample';
   const now = new Date();
-  const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 12);
-  const endDate = new Date(nextMonth);
-  endDate.setDate(endDate.getDate() + kyotoPreset.suggestedDays - 1);
+  const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 10);
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + goaPreset.suggestedDays - 1);
 
   const initialTrip: Trip = {
     id: tripId,
-    title: 'Kyoto Zen Temples & Heritage Escapade',
-    destination: kyotoPreset.destination,
-    country: kyotoPreset.country,
-    flag: kyotoPreset.flag,
-    coverImage: kyotoPreset.coverImage,
-    startDate: nextMonth.toISOString().split('T')[0],
+    title: 'Goa Sun, Sand & Portuguese Heritage',
+    destination: goaPreset.destination,
+    country: goaPreset.country,
+    flag: goaPreset.flag,
+    coverImage: goaPreset.coverImage,
+    startDate: startDate.toISOString().split('T')[0],
     endDate: endDate.toISOString().split('T')[0],
-    numberOfDays: kyotoPreset.suggestedDays,
-    budget: 1800,
-    currency: 'USD',
+    numberOfDays: goaPreset.suggestedDays,
+    budget: 35000,
+    currency: 'INR',
     travelersCount: 2,
     travelerType: 'couple',
-    travelStyle: 'cultural',
-    notes: 'Spring season trip focusing on historic architecture, matcha tea experiences, and local Kaiseki dining.',
+    travelStyle: 'relaxed',
+    notes: 'Beach hopping from Anjuna to Palolem, Chapora sunset, Fontainhas heritage walk, and fresh Goan seafood.',
     createdAt: Date.now(),
   };
 
-  const initialColumns: DayColumn[] = kyotoPreset.days.map((d, index) => {
-    const dDate = new Date(nextMonth);
+  const initialColumns: DayColumn[] = goaPreset.days.map((d, index) => {
+    const dDate = new Date(startDate);
     dDate.setDate(dDate.getDate() + index);
     return {
       id: `col-${tripId}-day-${index + 1}`,
@@ -82,8 +167,8 @@ export function initializeSampleData(): {
       title: `Day ${index + 1}: ${d.title}`,
       theme: d.theme,
       weather: {
-        temp: `${20 + (index % 4)}°C`,
-        condition: index % 2 === 0 ? 'Sunny & Clear' : 'Partly Cloudy',
+        temp: `${29 + (index % 3)}°C`,
+        condition: index % 2 === 0 ? 'Sunny & Warm' : 'Tropical Breeze',
       },
     };
   });
@@ -92,7 +177,7 @@ export function initializeSampleData(): {
   let actId = 1;
 
   // Add day activities
-  kyotoPreset.days.forEach((day, dayIdx) => {
+  goaPreset.days.forEach((day, dayIdx) => {
     const colId = initialColumns[dayIdx].id;
     day.activities.forEach((act, actIdx) => {
       initialActivities.push({
@@ -105,7 +190,7 @@ export function initializeSampleData(): {
   });
 
   // Add backlog activities
-  kyotoPreset.backlog.forEach((act, actIdx) => {
+  goaPreset.backlog.forEach((act, actIdx) => {
     initialActivities.push({
       ...act,
       id: `act-${tripId}-${actId++}`,
@@ -127,7 +212,6 @@ export function initializeSampleData(): {
     localStorage.setItem(STORAGE_KEYS.COLUMNS, JSON.stringify(columns));
     localStorage.setItem(STORAGE_KEYS.ACTIVITIES, JSON.stringify(activities));
     localStorage.setItem(STORAGE_KEYS.PACKING, JSON.stringify(packing));
-    // Notice: if user hasn't explicitly onboarded, we can prompt them or show prompt
   } catch (err) {
     console.error('Error seeding localStorage:', err);
   }

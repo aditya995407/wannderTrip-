@@ -18,7 +18,10 @@ import { ActivityModal } from './components/ActivityModal';
 import { EditDayModal } from './components/EditDayModal';
 import { TripSettingsModal } from './components/TripSettingsModal';
 import { ExportModal } from './components/ExportModal';
+import { LoginPage } from './components/LoginPage';
 import { createInitialPackingList } from './data/packing';
+import { AuthUser } from './types/auth';
+import { getStoredAuthUser, clearAuthSession } from './utils/auth';
 
 export default function App() {
   // Theme state (Dark / Light)
@@ -49,6 +52,19 @@ export default function App() {
   const [allColumns, setAllColumns] = useState<DayColumn[]>([]);
   const [allActivities, setAllActivities] = useState<ActivityItem[]>([]);
   const [allPacking, setAllPacking] = useState<PackingItem[]>([]);
+
+  // Authenticated user state
+  const [authUser, setAuthUser] = useState<AuthUser | null>(getStoredAuthUser);
+
+  const handleLoginSuccess = (user: AuthUser, token: string) => {
+    setAuthUser(user);
+    setActiveView('home');
+  };
+
+  const handleLogout = () => {
+    clearAuthSession();
+    setAuthUser(null);
+  };
 
   // Default view starts on the new Home Page
   const [activeView, setActiveView] = useState<ActiveView>('home');
@@ -425,11 +441,19 @@ export default function App() {
         onOpenExportModal={() => setIsExportModalOpen(true)}
         isDarkMode={isDarkMode}
         onToggleTheme={toggleTheme}
+        authUser={authUser}
+        onOpenLogin={() => setActiveView('login')}
+        onLogout={handleLogout}
       />
 
       {/* Main View Area */}
       <main className="flex-1 flex flex-col min-h-0">
-        {activeView === 'home' ? (
+        {activeView === 'login' ? (
+          <LoginPage
+            onLoginSuccess={handleLoginSuccess}
+            onCancel={() => setActiveView('home')}
+          />
+        ) : activeView === 'home' ? (
           <HomePage
             onPlanTrip={handlePlanTripFromHome}
             savedTrips={allTrips}
@@ -437,6 +461,8 @@ export default function App() {
               handleSelectTrip(tripId);
               setActiveView('kanban');
             }}
+            authUser={authUser}
+            onOpenLogin={() => setActiveView('login')}
           />
         ) : !currentTrip ? (
           <div className="flex-1 flex items-center justify-center p-8">
