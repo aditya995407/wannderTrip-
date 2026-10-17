@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../css/views/packingChecklistView.css';
 import { CheckSquare, Square, Plus, Trash2, RotateCcw } from 'lucide-react';
 import { PackingItem, Trip } from '../../types/trip';
 

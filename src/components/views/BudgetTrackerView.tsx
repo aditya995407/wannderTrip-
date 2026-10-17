@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../css/views/budgetTrackerView.css';
 import { DollarSign, PieChart, TrendingUp, AlertTriangle, CheckCircle, Tag } from 'lucide-react';
 import { ActivityCategory, ActivityItem, DayColumn, Trip } from '../../types/trip';
 import { CATEGORY_DETAILS, formatCurrency, formatDateDisplay } from '../../utils/formatters';

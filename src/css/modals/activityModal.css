@@ -2,7 +2,7 @@
  * Activity Modal CSS Stylesheet
  */
 
-.modal-backdrop {
+.activity-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 50;
@@ -10,19 +10,482 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background-color: rgba(2, 6, 23, 0.6);
+  background-color: rgba(2, 6, 23, 0.65);
   backdrop-filter: blur(4px);
+  overflow-y: auto;
 }
 
-.modal-card {
+.activity-modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  max-height: 90vh;
+  margin: auto;
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
+  overflow-y: auto;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  animation: activityFadeIn 150ms ease-out;
+}
+
+@keyframes activityFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.activity-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-muted);
+}
+
+.activity-modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-modal-title-row h3 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.activity-modal-destination-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.activity-modal-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.125rem;
+}
+
+.activity-modal-close-btn {
+  padding: 0.375rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.activity-modal-close-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* Tab Switcher */
+.activity-modal-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem 0.5rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+}
+
+.activity-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.activity-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.activity-tab-btn.active {
+  background-color: var(--slate-900);
+  color: #ffffff;
+}
+
+html.dark .activity-tab-btn.active {
+  background-color: #ffffff;
+  color: var(--slate-900);
+}
+
+.activity-tab-badge {
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-full);
+  background-color: var(--slate-700);
+  color: #ffffff;
+}
+
+html.dark .activity-tab-btn.active .activity-tab-badge {
+  background-color: var(--slate-200);
+  color: var(--slate-900);
+}
+
+/* Target Column Row */
+.activity-target-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1.5rem;
+  background-color: var(--bg-muted);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.75rem;
+}
+
+.activity-target-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.activity-target-select {
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  outline: none;
+}
+
+/* Suggestions Pane */
+.activity-suggestions-pane {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-search-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+@media (min-width: 640px) {
+  .activity-search-row {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.activity-search-input-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.activity-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.625rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--text-muted);
+}
+
+.activity-search-input {
   width: 100%;
-  max-width: 44rem;
-  max-height: 90vh;
+  padding: 0.375rem 0.75rem 0.375rem 2.25rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.activity-filter-select {
+  padding: 0.375rem 0.625rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  outline: none;
+}
+
+.activity-suggestions-list {
+  max-height: 24rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  gap: 0.625rem;
+  padding-right: 0.25rem;
+}
+
+.activity-suggestion-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  gap: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+@media (min-width: 640px) {
+  .activity-suggestion-card {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.activity-suggestion-card:hover {
+  border-color: var(--slate-400);
+  background-color: var(--bg-muted);
+}
+
+.activity-suggestion-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-suggestion-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  margin-bottom: 0.25rem;
+}
+
+.activity-suggestion-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.activity-suggestion-notes {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+}
+
+.activity-suggestion-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-top: 0.375rem;
+}
+
+.activity-suggestion-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .activity-suggestion-action {
+    justify-content: flex-end;
+  }
+}
+
+.activity-suggestion-price {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.activity-suggestion-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--slate-900);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity var(--transition-fast);
+}
+
+html.dark .activity-suggestion-add-btn {
+  background-color: var(--emerald-600);
+}
+
+.activity-suggestion-add-btn:hover {
+  opacity: 0.9;
+}
+
+/* Custom Form */
+.activity-custom-form {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.activity-form-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.activity-form-input,
+.activity-form-select,
+.activity-form-textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.activity-form-input:focus,
+.activity-form-select:focus,
+.activity-form-textarea:focus {
+  border-color: var(--slate-900);
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.1);
+}
+
+html.dark .activity-form-input:focus,
+html.dark .activity-form-select:focus,
+html.dark .activity-form-textarea:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+.activity-form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .activity-form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.activity-form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.activity-status-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-status-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.activity-status-btn.active {
+  background-color: var(--slate-900);
+  color: #ffffff;
+  border-color: var(--slate-900);
+}
+
+html.dark .activity-status-btn.active {
+  background-color: #ffffff;
+  color: var(--slate-900);
+  border-color: #ffffff;
+}
+
+.activity-form-footer {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.activity-btn-cancel {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.activity-btn-cancel:hover {
+  background-color: var(--bg-muted);
+  color: var(--text-primary);
+}
+
+.activity-btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--slate-900);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+html.dark .activity-btn-submit {
+  background-color: #ffffff;
+  color: var(--slate-900);
+}
+
+.activity-btn-submit:hover {
+  opacity: 0.9;
 }

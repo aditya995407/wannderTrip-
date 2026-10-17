@@ -12,6 +12,25 @@
   margin: 0 auto;
 }
 
+.saved-trips-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.saved-trips-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.saved-trips-desc {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.125rem;
+}
+
 .saved-trips-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -28,4 +47,98 @@
   .saved-trips-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+.saved-trip-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 1rem;
+  box-shadow: var(--shadow-2xs);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--transition-fast);
+}
+
+.saved-trip-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.saved-trip-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-bottom: 0.5rem;
+}
+
+.saved-trip-dest {
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.saved-trip-flag {
+  font-size: 1rem;
+}
+
+.saved-trip-days {
+  font-family: var(--font-mono);
+}
+
+.saved-trip-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.saved-trip-card:hover .saved-trip-name {
+  color: var(--emerald-600);
+}
+
+.saved-trip-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.saved-trip-style {
+  text-transform: capitalize;
+}
+
+.saved-trip-budget {
+  font-family: var(--font-mono);
+}
+
+.saved-trip-footer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.saved-trip-chevron {
+  transition: transform var(--transition-fast);
+}
+
+.saved-trip-card:hover .saved-trip-chevron {
+  transform: translateX(4px);
 }

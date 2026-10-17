@@ -68,34 +68,34 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between px-4 sm:px-8 py-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <header className="navbar-header">
       {/* Zone 1: Wordmark & Trip Switcher */}
-      <div className="flex items-center gap-4 min-w-0">
+      <div className="navbar-brand-zone">
         <a
           href="/"
           onClick={(e) => {
             e.preventDefault();
             onViewChange('home');
           }}
-          className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-slate-900 dark:text-white shrink-0 cursor-pointer"
+          className="navbar-brand"
         >
-          <div className="w-8 h-8 rounded-lg bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 shadow-sm">
-            <Compass className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+          <div className="navbar-brand-icon">
+            <Compass size={18} />
           </div>
-          <span className="font-['Plus_Jakarta_Sans',sans-serif]">WanderKanban</span>
+          <span>WanderKanban</span>
         </a>
 
         {/* Current Trip Switcher (if on planning views) */}
         {currentTrip && activeView !== 'home' && activeView !== 'login' && (
-          <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-slate-200 dark:border-slate-700">
-            <MapPin className="w-3.5 h-3.5 text-slate-400" />
+          <div className="navbar-trip-select-wrapper">
+            <MapPin size={14} />
             <select
               value={currentTrip.id}
               onChange={(e) => onSelectTrip(e.target.value)}
-              className="text-xs font-semibold text-slate-800 dark:text-slate-200 bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800 border-none cursor-pointer focus:ring-0 focus:outline-none pr-6 py-1 truncate max-w-[200px]"
+              className="navbar-trip-select"
             >
               {allTrips.map((t) => (
-                <option key={t.id} value={t.id} className="dark:bg-slate-900">
+                <option key={t.id} value={t.id}>
                   {t.flag} {t.destination} ({t.numberOfDays}d)
                 </option>
               ))}
@@ -105,74 +105,54 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Zone 2: Navigation Links / Segmented Control */}
-      <nav aria-label="Views" className="flex items-center p-1 bg-slate-100 dark:bg-slate-800 rounded-lg shrink-0">
+      <nav aria-label="Views" className="navbar-nav">
         <button
           onClick={() => onViewChange('home')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-            activeView === 'home'
-              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-semibold'
-              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-          }`}
+          className={`navbar-nav-item ${activeView === 'home' ? 'active' : ''}`}
         >
-          <Home className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Home</span>
+          <Home size={14} />
+          <span>Home</span>
         </button>
 
         <button
           onClick={() => onViewChange('kanban')}
-          className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-            activeView === 'kanban'
-              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-semibold'
-              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-          }`}
+          className={`navbar-nav-item ${activeView === 'kanban' ? 'active' : ''}`}
         >
           Kanban Board
         </button>
 
         <button
           onClick={() => onViewChange('timeline')}
-          className={`hidden md:inline-block px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-            activeView === 'timeline'
-              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-semibold'
-              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-          }`}
+          className={`navbar-nav-item hide-mobile ${activeView === 'timeline' ? 'active' : ''}`}
         >
           Timeline
         </button>
 
         <button
           onClick={() => onViewChange('budget')}
-          className={`hidden md:inline-block px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-            activeView === 'budget'
-              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-semibold'
-              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-          }`}
+          className={`navbar-nav-item hide-mobile ${activeView === 'budget' ? 'active' : ''}`}
         >
           Budget
         </button>
 
         <button
           onClick={() => onViewChange('packing')}
-          className={`hidden sm:inline-block px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
-            activeView === 'packing'
-              ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs font-semibold'
-              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-          }`}
+          className={`navbar-nav-item hide-mobile ${activeView === 'packing' ? 'active' : ''}`}
         >
           Packing
         </button>
       </nav>
 
       {/* Zone 3: Theme Toggle + Auth User / Sign In + Actions */}
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="navbar-actions">
         {/* Dark / Light Mode Toggle */}
         <button
           onClick={onToggleTheme}
           title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           aria-label="Toggle dark/light mode"
-          className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+          className="navbar-theme-btn"
         >
-          {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+          {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
         </button>
 
         {currentTrip && activeView !== 'home' && activeView !== 'login' && (
@@ -180,103 +160,99 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenExportModal}
               title="Share or Export Itinerary"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer"
+              className="navbar-secondary-btn"
             >
-              <Share2 className="w-3.5 h-3.5" />
+              <Share2 size={14} />
               <span>Export</span>
             </button>
             <button
               onClick={onOpenTripSettings}
               title="Trip Settings"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors whitespace-nowrap cursor-pointer"
+              className="navbar-secondary-btn"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Settings</span>
+              <SlidersHorizontal size={14} />
+              <span>Settings</span>
             </button>
           </>
         )}
 
         <button
           onClick={onOpenNewTrip}
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors whitespace-nowrap shadow-xs cursor-pointer"
+          className="navbar-primary-btn"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus size={14} />
           <span>New Trip</span>
         </button>
 
         {/* AUTH SECTION: User Avatar or Google Sign-In */}
         {authUser ? (
-          <div className="relative" ref={profileMenuRef}>
+          <div className="navbar-profile-wrap" ref={profileMenuRef}>
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all cursor-pointer shadow-2xs"
+              className="navbar-avatar-btn"
             >
               <img
                 src={authUser.picture}
                 alt={authUser.name}
                 referrerPolicy="no-referrer"
-                className="w-6 h-6 rounded-full object-cover border border-slate-200 dark:border-slate-600"
+                className="navbar-avatar-img"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
                     'https://lh3.googleusercontent.com/a/default-user=s96-c';
                 }}
               />
-              <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 max-w-[90px] truncate hidden md:inline">
+              <span className="navbar-avatar-name">
                 {authUser.name.split(' ')[0]}
               </span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
+              <ChevronDown size={12} />
             </button>
 
             {/* Profile Dropdown Menu */}
             {showProfileMenu && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-50 p-3 space-y-3 animate-in fade-in zoom-in-95 duration-100">
-                <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="navbar-profile-dropdown">
+                <div className="navbar-dropdown-header">
                   <img
                     src={authUser.picture}
                     alt={authUser.name}
                     referrerPolicy="no-referrer"
-                    className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
+                    className="navbar-dropdown-avatar"
                   />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                  <div className="navbar-dropdown-user-info">
+                    <p className="navbar-dropdown-name">
                       {authUser.name}
                     </p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                    <p className="navbar-dropdown-email">
                       {authUser.email}
                     </p>
-                    <div className="flex items-center gap-1 mt-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
-                      <ShieldCheck className="w-3 h-3" />
+                    <div className="navbar-dropdown-badge">
+                      <ShieldCheck size={12} />
                       <span>Google Authenticated</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 space-y-1">
-                  <div className="flex justify-between">
+                <div className="navbar-dropdown-details">
+                  <div className="navbar-dropdown-row">
                     <span>User ID:</span>
-                    <span className="font-mono text-slate-700 dark:text-slate-300">
-                      #{authUser.id}
-                    </span>
+                    <span>#{authUser.id}</span>
                   </div>
                   {authUser.google_id && (
-                    <div className="flex justify-between">
+                    <div className="navbar-dropdown-row">
                       <span>Google ID:</span>
-                      <span className="font-mono text-slate-700 dark:text-slate-300 truncate max-w-[120px]">
-                        {authUser.google_id}
-                      </span>
+                      <span className="navbar-truncate">{authUser.google_id}</span>
                     </div>
                   )}
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="navbar-dropdown-footer">
                   <button
                     onClick={() => {
                       setShowProfileMenu(false);
                       onLogout();
                     }}
-                    className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
+                    className="navbar-signout-btn"
                   >
-                    <LogOut className="w-3.5 h-3.5" />
+                    <LogOut size={14} />
                     <span>Sign Out</span>
                   </button>
                 </div>
@@ -286,10 +262,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         ) : (
           <button
             onClick={onOpenLogin}
-            className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-bold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 shadow-2xs transition-colors cursor-pointer"
+            className="navbar-signin-btn"
           >
             {/* Google G icon */}
-            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+            <svg className="navbar-google-icon" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

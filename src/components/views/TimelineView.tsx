@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../css/views/timelineView.css';
 import { Clock, MapPin, ExternalLink, Plus, CheckCircle2, Circle } from 'lucide-react';
 import { ActivityItem, DayColumn, Trip } from '../../types/trip';
 import { CATEGORY_DETAILS, formatCurrency, formatDateDisplay } from '../../utils/formatters';

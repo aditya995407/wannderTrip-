@@ -1,39 +1,13 @@
+/**
+ * Application Entry CSS
+ * Native pure in-built CSS system (No Tailwind dependency)
+ */
+
 @import "./css/index.css";
-@import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-@layer utilities {
-  /* Custom sleek scrollbar for Kanban board columns */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.4);
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 116, 139, 0.6);
-  }
-}
-
-@media print {
-  header,
-  nav,
-  button,
-  select,
-  .no-print {
-    display: none !important;
-  }
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  .print-page-break {
-    page-break-after: always;
-  }
-}
+@import "./css/app.css";
+@import "./css/layout/index.css";
+@import "./css/home/index.css";
+@import "./css/kanban/index.css";
+@import "./css/views/index.css";
+@import "./css/modals/index.css";
+@import "./css/auth/index.css";

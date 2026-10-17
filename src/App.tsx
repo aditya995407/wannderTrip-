@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './css/app.css';
 import { Navbar, ActiveView } from './components/layout';
 import { HomePage } from './components/home';
 import { KanbanBoard } from './components/kanban';
@@ -82,7 +83,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8fafc] dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-['Plus_Jakarta_Sans',sans-serif] transition-colors duration-150">
+    <div className="app-root">
       {/* Top Bar Navigation */}
       <Navbar
         currentTrip={currentTrip}
@@ -101,7 +102,7 @@ export default function App() {
       />
 
       {/* Main View Area */}
-      <main className="flex-1 flex flex-col min-h-0">
+      <main className="app-main">
         {activeView === 'login' ? (
           <LoginPage
             onLoginSuccess={(user, token) => {
@@ -122,17 +123,13 @@ export default function App() {
             onOpenLogin={() => setActiveView('login')}
           />
         ) : !currentTrip ? (
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="max-w-md text-center space-y-4">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                No active trips found
-              </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Search a destination on the home page to create your Kanban itinerary.
-              </p>
+          <div className="app-empty-state">
+            <div className="app-empty-card">
+              <h2>No active trips found</h2>
+              <p>Search a destination on the home page to create your Kanban itinerary.</p>
               <button
                 onClick={() => setActiveView('home')}
-                className="px-5 py-2.5 text-xs font-semibold text-white bg-slate-900 dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 transition-colors shadow-sm cursor-pointer"
+                className="app-empty-btn"
               >
                 Go to Home & Plan Trip
               </button>

@@ -1,3 +1,5 @@
+import '../../css/home/index.css';
+
 export * from './HomePage';
 export * from './HeroSearchWidget';
 export * from './SavedTripsSection';

@@ -11,6 +11,24 @@
   margin: 0 auto;
 }
 
+.how-it-works-header {
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto 2.5rem;
+}
+
+.how-it-works-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.how-it-works-desc {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+}
+
 .how-it-works-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -21,4 +39,44 @@
   .how-it-works-grid {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+.how-it-works-card {
+  padding: 1.25rem;
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.how-it-works-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.how-it-works-step-badge {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-muted);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.how-it-works-step-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.how-it-works-step-desc {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  line-height: 1.6;
 }

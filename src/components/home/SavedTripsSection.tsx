@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../css/home/savedTripsSection.css';
 import { ChevronRight } from 'lucide-react';
 import { Trip } from '../../types/trip';
 import { formatCurrency, formatDateDisplay } from '../../utils/formatters';
@@ -15,50 +16,50 @@ export const SavedTripsSection: React.FC<SavedTripsSectionProps> = ({
   if (savedTrips.length === 0) return null;
 
   return (
-    <section className="py-12 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+    <section className="saved-trips-section">
+      <div className="saved-trips-container">
+        <div className="saved-trips-header">
           <div>
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+            <h2 className="saved-trips-title">
               Your Saved Itineraries
             </h2>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="saved-trips-desc">
               Pick up where you left off or switch between trips.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="saved-trips-grid">
           {savedTrips.map((trip) => (
             <div
               key={trip.id}
               onClick={() => onSelectSavedTrip(trip.id)}
-              className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 rounded-2xl p-4 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex flex-col justify-between"
+              className="saved-trip-card"
             >
               <div>
-                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
-                  <span className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                    <span className="text-base">{trip.flag}</span> {trip.destination}
+                <div className="saved-trip-top">
+                  <span className="saved-trip-dest">
+                    <span className="saved-trip-flag">{trip.flag}</span> {trip.destination}
                   </span>
-                  <span className="font-mono tabular-nums">{trip.numberOfDays} Days</span>
+                  <span className="saved-trip-days">{trip.numberOfDays} Days</span>
                 </div>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-1">
+                <h3 className="saved-trip-name">
                   {trip.title}
                 </h3>
-                <div className="flex items-center gap-2 mt-2 text-xs text-slate-500 dark:text-slate-400">
+                <div className="saved-trip-meta">
                   <span>{formatDateDisplay(trip.startDate)}</span>
                   <span aria-hidden="true">·</span>
-                  <span className="capitalize">{trip.travelStyle}</span>
+                  <span className="saved-trip-style">{trip.travelStyle}</span>
                   <span aria-hidden="true">·</span>
-                  <span className="font-mono tabular-nums">
+                  <span className="saved-trip-budget">
                     {formatCurrency(trip.budget, trip.currency)}
                   </span>
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-semibold text-slate-900 dark:text-white">
+              <div className="saved-trip-footer">
                 <span>Open Kanban Board</span>
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight size={16} className="saved-trip-chevron" />
               </div>
             </div>
           ))}

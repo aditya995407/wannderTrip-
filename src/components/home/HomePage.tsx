@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../css/home/homePage.css';
 import { TravelStyle, TravelerType, Trip } from '../../types/trip';
 import { POPULAR_SEARCH_DESTINATIONS, SearchDestinationItem } from '../../data/destinations';
 import { AuthUser } from '../../types/auth';
@@ -46,7 +47,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   };
 
   return (
-    <div className="flex-1 bg-[#f8fafc] dark:bg-slate-950 text-slate-800 dark:text-slate-100 overflow-y-auto">
+    <div className="home-container">
       {/* Hero section with interactive search and trip config */}
       <HeroSearchWidget
         onPlanTrip={onPlanTrip}

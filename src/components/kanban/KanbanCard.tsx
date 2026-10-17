@@ -47,28 +47,23 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
     <div
       draggable
       onDragStart={(e) => onDragStart(e, activity.id, currentColumnId)}
-      className={`group relative bg-white dark:bg-slate-800/90 border rounded-xl p-3.5 shadow-2xs hover:shadow-xs transition-all duration-150 cursor-grab active:cursor-grabbing ${
-        isCompleted
-          ? 'border-slate-200/60 dark:border-slate-800/60 bg-slate-50/60 dark:bg-slate-800/40 opacity-75'
-          : 'border-slate-200/90 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
-      }`}
+      className={`kanban-card ${isCompleted ? 'completed' : ''}`}
     >
-      {/* Top Row: Unboxed Category & Priority Metadata + Status Check */}
-      <div className="flex items-center justify-between text-xs mb-2">
-        <div className="flex items-center gap-2 min-w-0">
-          {/* Subtle colored category dot */}
-          <span className={`w-2 h-2 rounded-full shrink-0 ${cat.dotColor}`} />
-          <span className={`text-[11px] font-semibold ${cat.textColor} dark:text-slate-300 truncate`}>
+      {/* Top Row: Category & Priority Metadata + Status Check */}
+      <div className="kanban-card-top">
+        <div className="kanban-card-meta">
+          <span className={`kanban-card-category-dot cat-${activity.category}`} />
+          <span className="kanban-card-category-label">
             {cat.label}
           </span>
-          <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
-          <span className={`text-[11px] ${prio.textClass} shrink-0`}>
+          <span aria-hidden="true" className="kanban-card-meta-separator">·</span>
+          <span className="kanban-card-priority-label">
             {prio.label}
           </span>
         </div>
 
         {/* Quick Status Toggle Button */}
-        <div className="flex items-center gap-1 shrink-0">
+        <div>
           <button
             onClick={() => onToggleStatus(activity.id)}
             title={
@@ -78,41 +73,37 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
                 ? 'Mark as completed'
                 : 'Mark as confirmed/booked'
             }
-            className="p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+            className="kanban-card-status-btn"
           >
             {isCompleted ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <CheckCircle2 size={16} className="kanban-status-completed" />
             ) : isBooked ? (
-              <CheckCircle2 className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+              <CheckCircle2 size={16} className="kanban-status-booked" />
             ) : (
-              <Circle className="w-4 h-4 text-slate-300 dark:text-slate-600 hover:text-slate-400" />
+              <Circle size={16} />
             )}
           </button>
         </div>
       </div>
 
       {/* Main Title */}
-      <h4
-        className={`text-xs font-bold leading-snug text-slate-900 dark:text-white ${
-          isCompleted ? 'line-through text-slate-400 dark:text-slate-500' : ''
-        }`}
-      >
+      <h4 className="kanban-card-title">
         {activity.title}
       </h4>
 
       {/* Optional Notes */}
       {activity.notes && (
-        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 line-clamp-2 leading-relaxed">
+        <p className="kanban-card-notes">
           {activity.notes}
         </p>
       )}
 
       {/* Location Row */}
       {activity.locationName && (
-        <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 dark:border-slate-700/60 text-[11px] text-slate-600 dark:text-slate-400">
-          <div className="flex items-center gap-1.5 truncate">
-            <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
-            <span className="truncate">{activity.locationName}</span>
+        <div className="kanban-card-location">
+          <div className="kanban-card-location-info">
+            <MapPin size={12} />
+            <span className="kanban-card-location-text">{activity.locationName}</span>
           </div>
           <a
             href={mapsUrl}
@@ -120,68 +111,66 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
             rel="noopener noreferrer"
             title="Open in Maps"
             onClick={(e) => e.stopPropagation()}
-            className="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-0.5 ml-1 shrink-0"
+            className="kanban-card-maps-link"
           >
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink size={12} />
           </a>
         </div>
       )}
 
       {/* Bottom Footer Metadata: Time + Cost + Actions */}
-      <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-700/60 text-[11px] text-slate-500 dark:text-slate-400">
-        <div className="flex items-center gap-2">
+      <div className="kanban-card-footer">
+        <div className="kanban-card-info">
           {/* Time indicator if present */}
           {activity.timeStart ? (
-            <span className="flex items-center gap-1 font-mono text-[10px] tabular-nums text-slate-600 dark:text-slate-300 font-medium">
-              <Clock className="w-3 h-3 text-slate-400" />
+            <span className="kanban-card-time">
+              <Clock size={12} />
               {activity.timeStart}
               {activity.timeEnd ? `–${activity.timeEnd}` : ''}
             </span>
           ) : activity.duration ? (
-            <span className="flex items-center gap-1 font-mono text-[10px] tabular-nums text-slate-500 dark:text-slate-400">
-              <Clock className="w-3 h-3 text-slate-400" />
+            <span className="kanban-card-time">
+              <Clock size={12} />
               {activity.duration}
             </span>
           ) : null}
 
           {/* Cost indicator */}
           {activity.cost > 0 ? (
-            <span className="font-mono text-[11px] font-semibold tabular-nums text-slate-800 dark:text-slate-200">
+            <span className="kanban-card-cost">
               {formatCurrency(activity.cost, activity.currency)}
             </span>
           ) : (
-            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">Free</span>
+            <span className="kanban-card-free">Free</span>
           )}
         </div>
 
         {/* Card Actions */}
-        <div className="flex items-center gap-1">
+        <div className="kanban-card-actions">
           {/* Move to another column selector dropdown */}
-          <div className="relative">
-            <select
-              value={currentColumnId}
-              onChange={(e) => onMoveToColumn(activity.id, e.target.value)}
-              title="Move to another Day or Backlog"
-              aria-label="Move card to day"
-              className="text-[10px] bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 border-none rounded px-1.5 py-0.5 text-slate-600 dark:text-slate-200 focus:outline-none cursor-pointer max-w-[85px] truncate"
-            >
-              <option value="backlog">Backlog</option>
-              {columns.map((c) => (
-                <option key={c.id} value={c.id}>
-                  Day {c.dayIndex}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            value={currentColumnId}
+            onChange={(e) => onMoveToColumn(activity.id, e.target.value)}
+            title="Move to another Day or Backlog"
+            aria-label="Move card to day"
+            className="kanban-card-move-select"
+          >
+            <option value="backlog">Backlog</option>
+            {columns.map((c) => (
+              <option key={c.id} value={c.id}>
+                Day {c.dayIndex}
+              </option>
+            ))}
+          </select>
 
           {/* Quick Edit */}
           <button
             onClick={() => onEdit(activity)}
             title="Edit activity"
             aria-label="Edit activity"
-            className="p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            className="kanban-card-btn"
           >
-            <Edit2 className="w-3 h-3" />
+            <Edit2 size={12} />
           </button>
 
           {/* Quick Delete */}
@@ -189,9 +178,9 @@ export const KanbanCard: React.FC<KanbanCardProps> = ({
             onClick={() => onDelete(activity.id)}
             title="Delete activity"
             aria-label="Delete activity"
-            className="p-1 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+            className="kanban-card-btn delete"
           >
-            <Trash2 className="w-3 h-3" />
+            <Trash2 size={12} />
           </button>
         </div>
       </div>

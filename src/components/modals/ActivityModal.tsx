@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../css/modals/activityModal.css';
 import { X, Clock, MapPin, DollarSign, Tag, Check, Calendar, Sparkles, Plus, Search, ExternalLink } from 'lucide-react';
 import { ActivityCategory, ActivityItem, ActivityPriority, ActivityStatus, DayColumn } from '../../types/trip';
 import { getDestinationSuggestions, SuggestedActivity } from '../../data/destinations';
@@ -161,27 +162,28 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto">
-      <div className="relative w-full max-w-2xl my-8 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden text-slate-900 dark:text-slate-100">
+    <div className="activity-modal-overlay">
+      <div className="activity-modal-dialog">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/80">
+        <div className="activity-modal-header">
           <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+            <div className="activity-modal-title-row">
+              <h3>
                 {initialActivity ? 'Edit Activity' : `Add Activity to ${columnDisplayName}`}
               </h3>
-              <span className="text-slate-400 dark:text-slate-500" aria-hidden="true">·</span>
-              <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+              <span aria-hidden="true">·</span>
+              <span className="activity-modal-destination-badge">
                 {destinationName}
               </span>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="activity-modal-subtitle">
               Choose from popular attractions for {destinationName} or write your own custom activity.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="activity-modal-close-btn"
+            aria-label="Close"
           >
             <X className="w-4 h-4" />
           </button>
@@ -189,28 +191,20 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
 
         {/* Tab Switcher (only for new items) */}
         {!initialActivity && (
-          <div className="flex items-center px-6 pt-3 pb-2 border-b border-slate-100 dark:border-slate-800 gap-2 bg-slate-50/30 dark:bg-slate-900/40">
+          <div className="activity-modal-tabs">
             <button
               onClick={() => setActiveTab('suggestions')}
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
-                activeTab === 'suggestions'
-                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
+              className={`activity-tab-btn ${activeTab === 'suggestions' ? 'active' : ''}`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <span>Recommended Suggestions</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-700 dark:bg-slate-200 text-white dark:text-slate-900 tabular-nums">
+              <span className="activity-tab-badge">
                 {suggestions.length}
               </span>
             </button>
             <button
               onClick={() => setActiveTab('custom')}
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
-                activeTab === 'custom'
-                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
+              className={`activity-tab-btn ${activeTab === 'custom' ? 'active' : ''}`}
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Create Custom Activity</span>
@@ -219,14 +213,14 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
         )}
 
         {/* Day Column Selection Row */}
-        <div className="px-6 py-2.5 bg-slate-50/50 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
-          <label className="text-slate-600 dark:text-slate-400 font-medium">
+        <div className="activity-target-row">
+          <label className="activity-target-label">
             Target Day Column:
           </label>
           <select
             value={columnId}
             onChange={(e) => setColumnId(e.target.value)}
-            className="px-2.5 py-1 text-xs border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            className="activity-target-select"
           >
             <option value="backlog">Trip Ideas & Backlog</option>
             {columns.map((c) => (
@@ -239,23 +233,23 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
 
         {/* TAB 1: SUGGESTIONS */}
         {activeTab === 'suggestions' && !initialActivity && (
-          <div className="p-6 space-y-4">
+          <div className="activity-suggestions-pane">
             {/* Filter & Search */}
-            <div className="flex flex-col sm:flex-row items-center gap-2.5">
-              <div className="relative flex-1 w-full">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+            <div className="activity-search-row">
+              <div className="activity-search-input-wrap">
+                <Search className="activity-search-icon" />
                 <input
                   type="text"
                   placeholder={`Search attractions in ${destinationName}...`}
                   value={suggestionSearch}
                   onChange={(e) => setSuggestionSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
+                  className="activity-search-input"
                 />
               </div>
               <select
                 value={suggestionFilter}
                 onChange={(e) => setSuggestionFilter(e.target.value)}
-                className="w-full sm:w-auto px-2.5 py-1.5 text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-700 dark:text-slate-300"
+                className="activity-filter-select"
               >
                 <option value="all">All Categories</option>
                 <option value="sightseeing">Sightseeing</option>
@@ -268,7 +262,7 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
             </div>
 
             {/* Suggestions List */}
-            <div className="max-h-[380px] overflow-y-auto space-y-2.5 pr-1">
+            <div className="activity-suggestions-list">
               {filteredSuggestions.length === 0 ? (
                 <div className="py-12 text-center text-xs text-slate-400">
                   No matching suggestions found. Try a different search or click 'Create Custom Activity'.
@@ -279,39 +273,39 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
                   return (
                     <div
                       key={idx}
-                      className="group flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-slate-50/80 dark:hover:bg-slate-800 transition-all gap-3"
+                      className="activity-suggestion-card"
                     >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
+                      <div className="activity-suggestion-info">
+                        <div className="activity-suggestion-meta">
                           <span className={`w-2 h-2 rounded-full ${cat.dotColor}`} />
-                          <span className={`text-[11px] font-semibold ${cat.textColor} dark:text-slate-300`}>
+                          <span className="font-semibold text-slate-700 dark:text-slate-300">
                             {cat.label}
                           </span>
-                          <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
-                          <span className="text-[11px] text-slate-500 dark:text-slate-400 capitalize">
+                          <span aria-hidden="true">·</span>
+                          <span className="capitalize">
                             {item.priority}
                           </span>
                           {item.timeStart && (
                             <>
-                              <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
-                              <span className="text-[11px] font-mono text-slate-500 tabular-nums">
+                              <span aria-hidden="true">·</span>
+                              <span className="font-mono tabular-nums">
                                 {item.timeStart}
                               </span>
                             </>
                           )}
                         </div>
 
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-snug">
+                        <h4 className="activity-suggestion-title">
                           {item.title}
                         </h4>
 
                         {item.notes && (
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
+                          <p className="activity-suggestion-notes">
                             {item.notes}
                           </p>
                         )}
 
-                        <div className="flex items-center gap-2 mt-1.5 text-[11px] text-slate-600 dark:text-slate-400">
+                        <div className="activity-suggestion-location">
                           {item.locationName && (
                             <span className="flex items-center gap-1 truncate">
                               <MapPin className="w-3 h-3 text-slate-400" />
@@ -322,13 +316,13 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
                       </div>
 
                       {/* Right Action: Cost & Add Button */}
-                      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-700">
-                        <span className="font-mono text-xs font-bold tabular-nums text-slate-900 dark:text-slate-100">
+                      <div className="activity-suggestion-action">
+                        <span className="activity-suggestion-price">
                           {item.cost > 0 ? formatCurrency(item.cost, currency) : 'Free'}
                         </span>
                         <button
                           onClick={() => handleSelectSuggestion(item)}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 dark:bg-emerald-600 hover:bg-slate-800 dark:hover:bg-emerald-500 rounded-lg transition-colors shadow-2xs whitespace-nowrap"
+                          className="activity-suggestion-add-btn"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Add to {columnDisplayName}</span>
@@ -341,11 +335,11 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
             </div>
 
             {/* Link to custom form */}
-            <div className="pt-2 text-center border-t border-slate-100 dark:border-slate-800">
+            <div className="pt-2 text-center border-t border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 onClick={() => setActiveTab('custom')}
-                className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium underline"
+                className="text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium underline cursor-pointer"
               >
                 Can't find what you need? Create a custom activity
               </button>
@@ -355,10 +349,10 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
 
         {/* TAB 2: CUSTOM ACTIVITY FORM */}
         {(activeTab === 'custom' || initialActivity) && (
-          <form onSubmit={handleCustomSubmit} className="p-6 space-y-4">
+          <form onSubmit={handleCustomSubmit} className="activity-custom-form">
             {/* Title */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <div className="activity-form-field">
+              <label className="activity-form-label">
                 Activity Title *
               </label>
               <input
@@ -367,19 +361,19 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
                 placeholder="e.g. Sunrise Hot Air Balloon, Dinner at Trattoria, Museum Tour..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400"
+                className="activity-form-input"
               />
             </div>
 
             {/* Category */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            <div className="activity-form-field">
+              <label className="activity-form-label">
                 Category
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as ActivityCategory)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="activity-form-select"
               >
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
@@ -390,41 +384,41 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
             </div>
 
             {/* Time & Duration */}
-            <div className="grid grid-cols-3 gap-3">
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Start Time</label>
+            <div className="activity-form-grid-3">
+              <div className="activity-form-field">
+                <label className="activity-form-label">Start Time</label>
                 <input
                   type="time"
                   value={timeStart}
                   onChange={(e) => setTimeStart(e.target.value)}
-                  className="w-full px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 tabular-nums font-mono"
+                  className="activity-form-input"
                 />
               </div>
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">End Time</label>
+              <div className="activity-form-field">
+                <label className="activity-form-label">End Time</label>
                 <input
                   type="time"
                   value={timeEnd}
                   onChange={(e) => setTimeEnd(e.target.value)}
-                  className="w-full px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 tabular-nums font-mono"
+                  className="activity-form-input"
                 />
               </div>
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Duration</label>
+              <div className="activity-form-field">
+                <label className="activity-form-label">Duration</label>
                 <input
                   type="text"
                   placeholder="e.g. 2h"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="w-full px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                  className="activity-form-input"
                 />
               </div>
             </div>
 
             {/* Cost & Priority */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
+            <div className="activity-form-grid-2">
+              <div className="activity-form-field">
+                <label className="activity-form-label">
                   Estimated Cost ({currency})
                 </label>
                 <div className="relative">
@@ -435,16 +429,17 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
                     step="1"
                     value={cost}
                     onChange={(e) => setCost(Math.max(0, parseFloat(e.target.value) || 0))}
-                    className="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 tabular-nums font-mono"
+                    className="activity-form-input"
+                    style={{ paddingLeft: '2rem' }}
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Priority</label>
+              <div className="activity-form-field">
+                <label className="activity-form-label">Priority</label>
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value as ActivityPriority)}
-                  className="w-full px-3 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                  className="activity-form-select"
                 >
                   <option value="must-do">Must-visit (High Priority)</option>
                   <option value="recommended">Recommended</option>
@@ -454,33 +449,33 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
             </div>
 
             {/* Location & Maps URL */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Location / Venue</label>
+            <div className="activity-form-grid-2">
+              <div className="activity-form-field">
+                <label className="activity-form-label">Location / Venue</label>
                 <input
                   type="text"
                   placeholder="e.g. Piazza San Marco, Venice"
                   value={locationName}
                   onChange={(e) => setLocationName(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                  className="activity-form-input"
                 />
               </div>
-              <div>
-                <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Booking / Map URL (optional)</label>
+              <div className="activity-form-field">
+                <label className="activity-form-label">Booking / Map URL (optional)</label>
                 <input
                   type="url"
                   placeholder="https://..."
                   value={locationUrl}
                   onChange={(e) => setLocationUrl(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                  className="activity-form-input"
                 />
               </div>
             </div>
 
             {/* Booking Status */}
-            <div>
-              <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">Booking Status</label>
-              <div className="flex items-center gap-2">
+            <div className="activity-form-field">
+              <label className="activity-form-label">Booking Status</label>
+              <div className="activity-status-buttons">
                 {[
                   { id: 'planned', label: 'Planned / Idea' },
                   { id: 'booked', label: 'Booked / Confirmed' },
@@ -490,11 +485,7 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
                     key={s.id}
                     type="button"
                     onClick={() => setStatus(s.id as ActivityStatus)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
-                      status === s.id
-                        ? 'border-slate-900 dark:border-white bg-slate-900 dark:bg-white text-white dark:text-slate-900'
-                        : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300'
-                    }`}
+                    className={`activity-status-btn ${status === s.id ? 'active' : ''}`}
                   >
                     {s.label}
                   </button>
@@ -503,8 +494,8 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
             </div>
 
             {/* Notes */}
-            <div>
-              <label className="block text-xs text-slate-600 dark:text-slate-400 mb-1">
+            <div className="activity-form-field">
+              <label className="activity-form-label">
                 Notes & Reminders
               </label>
               <textarea
@@ -512,22 +503,22 @@ export const ActivityModal: React.FC<ActivityModalProps> = ({
                 placeholder="e.g. Bring tickets, dress modestly for temple, confirmation #124..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full px-3 py-2 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="activity-form-textarea"
               />
             </div>
 
             {/* Footer buttons */}
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-2">
+            <div className="activity-form-footer">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                className="activity-btn-cancel"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-slate-900 dark:bg-white dark:text-slate-900 rounded-lg hover:bg-slate-800 transition-colors shadow-xs"
+                className="activity-btn-submit"
               >
                 <Check className="w-3.5 h-3.5 text-emerald-400" />
                 <span>{initialActivity ? 'Save Changes' : 'Add Activity'}</span>
